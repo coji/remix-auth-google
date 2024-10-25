@@ -18,7 +18,7 @@ export type GoogleStrategyOptions = {
   /**
    * @default "openid profile email"
    */
-  scope?: GoogleScope[] | string
+  scopes?: GoogleScope[]
   accessType?: 'online' | 'offline'
   includeGrantedScopes?: boolean
   prompt?: 'none' | 'consent' | 'select_account'
@@ -55,12 +55,11 @@ export type GoogleExtraParams = {
   id_token: string
 } & Record<string, string | number>
 
-export const GoogleStrategyScopeSeperator = ' '
 export const GoogleStrategyDefaultScopes = [
   'openid',
   'https://www.googleapis.com/auth/userinfo.profile',
   'https://www.googleapis.com/auth/userinfo.email',
-].join(GoogleStrategyScopeSeperator)
+]
 export const GoogleStrategyDefaultName = 'google'
 
 export class GoogleStrategy<User> extends OAuth2Strategy<
@@ -69,8 +68,6 @@ export class GoogleStrategy<User> extends OAuth2Strategy<
   GoogleExtraParams
 > {
   public name = GoogleStrategyDefaultName
-
-  private readonly scope: string
 
   private readonly accessType: string
 
@@ -89,7 +86,7 @@ export class GoogleStrategy<User> extends OAuth2Strategy<
       clientId,
       clientSecret,
       redirectURI,
-      scope,
+      scopes,
       accessType,
       includeGrantedScopes,
       prompt,
@@ -108,10 +105,10 @@ export class GoogleStrategy<User> extends OAuth2Strategy<
         redirectURI,
         authorizationEndpoint: 'https://accounts.google.com/o/oauth2/v2/auth',
         tokenEndpoint: 'https://oauth2.googleapis.com/token',
+        scopes: scopes ?? GoogleStrategyDefaultScopes,
       },
       verify,
     )
-    this.scope = this.parseScope(scope)
     this.accessType = accessType ?? 'online'
     this.includeGrantedScopes = includeGrantedScopes ?? false
     this.prompt = prompt
@@ -159,17 +156,5 @@ export class GoogleStrategy<User> extends OAuth2Strategy<
       _json: raw,
     }
     return profile
-  }
-
-  // Allow users the option to pass a scope string, or typed array
-  private parseScope(scope: GoogleStrategyOptions['scope']) {
-    if (!scope) {
-      return GoogleStrategyDefaultScopes
-    }
-    if (Array.isArray(scope)) {
-      return scope.join(GoogleStrategyScopeSeperator)
-    }
-
-    return scope
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@coji/remix-auth-google",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "type": "module",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
