@@ -8,54 +8,78 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Use Node 18
-        uses: actions/setup-node@v1
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        id: pnpm-install
         with:
-          node-version: 18
+          version: 9
+          run_install: false
+
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: pnpm install
 
       - name: Build
-        run: yarn build
+        run: pnpm build
 
   typecheck:
     name: Typechecker
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Use Node 18
-        uses: actions/setup-node@v1
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        id: pnpm-install
         with:
-          node-version: 18
+          version: 9
+          run_install: false
+
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: pnpm install
 
       - name: Typecheck
-        run: yarn typecheck
+        run: pnpm typecheck
 
   lint:
     name: Linter
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Use Node 18
-        uses: actions/setup-node@v1
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        id: pnpm-install
         with:
-          node-version: 18
+          version: 9
+          run_install: false
+
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: pnpm install
 
       - name: Build
-        run: yarn build
+        run: pnpm build
 
       - name: Lint
-        run: yarn lint
+        run: pnpm lint

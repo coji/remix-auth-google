@@ -11,9 +11,9 @@ import { OAuth2Strategy } from 'remix-auth-oauth2'
 export type GoogleScope = string
 
 export type GoogleStrategyOptions = {
-  clientID: string
+  clientId: string
   clientSecret: string
-  callbackURL: string
+  redirectURI: string
   /**
    * @default "openid profile email"
    */
@@ -69,6 +69,8 @@ export class GoogleStrategy<User> extends OAuth2Strategy<
 > {
   public name = GoogleStrategyDefaultName
 
+  private readonly scope: string
+
   private readonly accessType: string
 
   private readonly prompt?: 'none' | 'consent' | 'select_account'
@@ -83,9 +85,9 @@ export class GoogleStrategy<User> extends OAuth2Strategy<
 
   constructor(
     {
-      clientID,
+      clientId,
       clientSecret,
-      callbackURL,
+      redirectURI,
       scope,
       accessType,
       includeGrantedScopes,
@@ -96,17 +98,17 @@ export class GoogleStrategy<User> extends OAuth2Strategy<
     verify: StrategyVerifyCallback<
       User,
       OAuth2StrategyVerifyParams<GoogleProfile, GoogleExtraParams>
-    >
+    >,
   ) {
     super(
       {
-        clientID,
+        clientId,
         clientSecret,
-        callbackURL,
-        authorizationURL: 'https://accounts.google.com/o/oauth2/v2/auth',
-        tokenURL: 'https://oauth2.googleapis.com/token',
+        redirectURI,
+        authorizationEndpoint: 'https://accounts.google.com/o/oauth2/v2/auth',
+        tokenEndpoint: 'https://oauth2.googleapis.com/token',
       },
-      verify
+      verify,
     )
     this.scope = this.parseScope(scope)
     this.accessType = accessType ?? 'online'
@@ -133,10 +135,15 @@ export class GoogleStrategy<User> extends OAuth2Strategy<
     return params
   }
 
-  protected async userProfile(accessToken: string): Promise<GoogleProfile> {
+  protected async userProfile(
+    tokens: OAuth2StrategyVerifyParams<
+      GoogleProfile,
+      GoogleExtraParams
+    >['tokens'],
+  ): Promise<GoogleProfile> {
     const response = await fetch(this.userInfoURL, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${tokens.access_token}`,
       },
     })
     const raw: GoogleProfile['_json'] = await response.json()
@@ -159,7 +166,8 @@ export class GoogleStrategy<User> extends OAuth2Strategy<
   private parseScope(scope: GoogleStrategyOptions['scope']) {
     if (!scope) {
       return GoogleStrategyDefaultScopes
-    } else if (Array.isArray(scope)) {
+    }
+    if (Array.isArray(scope)) {
       return scope.join(GoogleStrategyScopeSeperator)
     }
 

@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2019"],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "esModuleInterop": true,
-    "moduleResolution": "Node",
-    "module": "CommonJS",
-    "target": "ES2019",
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "target": "ES2022",
     "strict": true,
     "skipLibCheck": true,
     "declaration": true,
