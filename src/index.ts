@@ -2,6 +2,7 @@ import type { StrategyVerifyCallback } from 'remix-auth'
 import type {
   OAuth2Profile,
   OAuth2StrategyVerifyParams,
+  TokenResponseBody,
 } from 'remix-auth-oauth2'
 import { OAuth2Strategy } from 'remix-auth-oauth2'
 
@@ -118,11 +119,12 @@ export class GoogleStrategy<User> extends OAuth2Strategy<
     this.loginHint = loginHint
   }
 
-  protected authorizationParams(): URLSearchParams {
-    const params = new URLSearchParams({
-      access_type: this.accessType,
-      include_granted_scopes: String(this.includeGrantedScopes),
-    })
+  protected authorizationParams(
+    params: URLSearchParams,
+    request?: Request,
+  ): URLSearchParams {
+    params.set('access_type', this.accessType)
+    params.set('include_granted_scopes', String(this.includeGrantedScopes))
     if (this.prompt) {
       params.set('prompt', this.prompt)
     }
@@ -136,10 +138,7 @@ export class GoogleStrategy<User> extends OAuth2Strategy<
   }
 
   protected async userProfile(
-    tokens: OAuth2StrategyVerifyParams<
-      GoogleProfile,
-      GoogleExtraParams
-    >['tokens'],
+    tokens: TokenResponseBody & GoogleExtraParams,
   ): Promise<GoogleProfile> {
     const response = await fetch(this.userInfoURL, {
       headers: {
