@@ -27,14 +27,14 @@ import { GoogleStrategy } from 'remix-auth-google'
 
 let googleStrategy = new GoogleStrategy(
   {
-    clientID: 'YOUR_CLIENT_ID',
+    clientId: 'YOUR_CLIENT_ID',
     clientSecret: 'YOUR_CLIENT_SECRET',
-    callbackURL: 'https://example.com/auth/google/callback',
+    redirectURI: 'https://example.com/auth/google/callback',
   },
   async ({ accessToken, refreshToken, extraParams, profile }) => {
     // Get the user data from your DB or API using the tokens and profile
     return User.findOrCreate({ email: profile.emails[0].value })
-  }
+  },
 )
 
 authenticator.use(googleStrategy)
