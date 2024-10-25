@@ -13,22 +13,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out source
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
+
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'yarn'
+          cache: 'pnpm'
+
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: pnpm install
+
       - name: Setup Git
         run: |
           git config user.name '${{ secrets.GIT_USER_NAME }}'
           git config user.email '${{ secrets.GIT_USER_EMAIL }}'
+
       - name: bump version
-        run: yarn version --${{ github.event.inputs.version }}
+        run: pnpm version --${{ github.event.inputs.version }}
 
       - name: Push latest version
         run: git push origin main --follow-tags

@@ -14,12 +14,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'pnpm'
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: pnpm install
 
       - name: Build
-        run: yarn build
+        run: pnpm build
 
   typecheck:
     name: Typechecker
@@ -32,12 +33,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'pnpm'
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: pnpm install
 
       - name: Typecheck
-        run: yarn typecheck
+        run: pnpm typecheck
 
   lint:
     name: Linter
@@ -50,12 +52,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'pnpm'
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: pnpm install
 
       - name: Build
-        run: yarn build
+        run: pnpm build
 
       - name: Lint
-        run: yarn lint
+        run: pnpm lint
