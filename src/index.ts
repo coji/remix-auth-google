@@ -1,10 +1,5 @@
-import type { StrategyVerifyCallback } from 'remix-auth'
-import type {
-  OAuth2Profile,
-  OAuth2StrategyVerifyParams,
-  TokenResponseBody,
-} from 'remix-auth-oauth2'
 import { OAuth2Strategy } from 'remix-auth-oauth2'
+import type { OAuth2Tokens } from 'arctic'
 
 /**
  * @see https://developers.google.com/identity/protocols/oauth2/scopes
@@ -46,7 +41,7 @@ export type GoogleProfile = {
     email_verified: boolean
     hd: string
   }
-} & OAuth2Profile
+}
 
 export type GoogleExtraParams = {
   expires_in: 3920
@@ -62,11 +57,7 @@ export const GoogleStrategyDefaultScopes = [
 ]
 export const GoogleStrategyDefaultName = 'google'
 
-export class GoogleStrategy<User> extends OAuth2Strategy<
-  User,
-  GoogleProfile,
-  GoogleExtraParams
-> {
+export class GoogleStrategy<User> extends OAuth2Strategy<User> {
   public name = GoogleStrategyDefaultName
 
   private readonly accessType: string
@@ -93,10 +84,7 @@ export class GoogleStrategy<User> extends OAuth2Strategy<
       hd,
       loginHint,
     }: GoogleStrategyOptions,
-    verify: StrategyVerifyCallback<
-      User,
-      OAuth2StrategyVerifyParams<GoogleProfile, GoogleExtraParams>
-    >,
+    verify: OAuth2Strategy<User>['verify'],
   ) {
     super(
       {
@@ -134,17 +122,17 @@ export class GoogleStrategy<User> extends OAuth2Strategy<
     return params
   }
 
-  protected async userProfile(
-    tokens: TokenResponseBody & GoogleExtraParams,
-  ): Promise<GoogleProfile> {
+  protected async userProfile(tokens: OAuth2Tokens): Promise<GoogleProfile> {
     const response = await fetch(this.userInfoURL, {
       headers: {
-        Authorization: `Bearer ${tokens.access_token}`,
+        Authorization: `Bearer ${tokens.accessToken()}`,
       },
     })
+    if (!response.ok) {
+      throw new Error(`Failed to fetch user profile: ${response.statusText}`)
+    }
     const raw: GoogleProfile['_json'] = await response.json()
     const profile: GoogleProfile = {
-      provider: 'google',
       id: raw.sub,
       displayName: raw.name,
       name: {
