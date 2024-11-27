@@ -128,6 +128,9 @@ export class GoogleStrategy<User> extends OAuth2Strategy<User> {
         Authorization: `Bearer ${tokens.accessToken()}`,
       },
     })
+    if (!response.ok) {
+      throw new Error(`Failed to fetch user profile: ${response.statusText}`)
+    }
     const raw: GoogleProfile['_json'] = await response.json()
     const profile: GoogleProfile = {
       id: raw.sub,
