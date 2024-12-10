@@ -73,7 +73,7 @@ const googleStrategy = new GoogleStrategy(
   },
   async ({ accessToken, tokens }) => {
     // Get the user data from your DB or API using the tokens and profile
-    const profile = await GoogleStrategy.userProfile(tokens.accessToken())
+    const profile = await GoogleStrategy.userProfile(tokens)
     return User.findOrCreate({ email: profile.emails[0].value })
   },
 )
