@@ -56,6 +56,7 @@ export const GoogleStrategyDefaultScopes = [
   'https://www.googleapis.com/auth/userinfo.email',
 ]
 export const GoogleStrategyDefaultName = 'google'
+const userInfoURL = 'https://www.googleapis.com/oauth2/v3/userinfo'
 
 export class GoogleStrategy<User> extends OAuth2Strategy<User> {
   public name = GoogleStrategyDefaultName
@@ -69,8 +70,6 @@ export class GoogleStrategy<User> extends OAuth2Strategy<User> {
   private readonly hd?: string
 
   private readonly loginHint?: string
-
-  private readonly userInfoURL = 'https://www.googleapis.com/oauth2/v3/userinfo'
 
   constructor(
     {
@@ -122,8 +121,8 @@ export class GoogleStrategy<User> extends OAuth2Strategy<User> {
     return params
   }
 
-  protected async userProfile(tokens: OAuth2Tokens): Promise<GoogleProfile> {
-    const response = await fetch(this.userInfoURL, {
+  static async userProfile(tokens: OAuth2Tokens): Promise<GoogleProfile> {
+    const response = await fetch(userInfoURL, {
       headers: {
         Authorization: `Bearer ${tokens.accessToken()}`,
       },

@@ -1,6 +1,6 @@
 {
   "name": "@coji/remix-auth-google",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "type": "module",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -40,8 +40,8 @@
     "arctic": "^2.3.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
-    "prettier": "^3.4.1",
-    "remix-auth-oauth2": "^3.0.0",
+    "prettier": "^3.4.2",
+    "remix-auth-oauth2": "^3.1.0",
     "typescript": "^5.7.2"
   },
   "lint-staged": {

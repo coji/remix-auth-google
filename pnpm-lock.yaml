@@ -20,11 +20,11 @@ importers:
         specifier: ^15.2.10
         version: 15.2.10
       prettier:
-        specifier: ^3.4.1
-        version: 3.4.1
+        specifier: ^3.4.2
+        version: 3.4.2
       remix-auth-oauth2:
-        specifier: ^3.0.0
-        version: 3.0.0(remix-auth@4.0.0)
+        specifier: ^3.1.0
+        version: 3.1.0(remix-auth@4.0.0)
       typescript:
         specifier: ^5.7.2
         version: 5.7.2
@@ -109,6 +109,13 @@ packages:
     engines: { node: '>=14.21.3' }
     cpu: [x64]
     os: [win32]
+
+  '@edgefirst-dev/data@0.0.2':
+    resolution:
+      {
+        integrity: sha512-kvw7RRDW9TJtOYHhzMYQ4g9x+ji87o02CROTnS9qCl2SZXauAPRpTiIQMGC5YLwvgzxV76Y2uMavQK4TQB1z0Q==,
+      }
+    engines: { node: '>=20.0.0' }
 
   '@mjackson/headers@0.8.0':
     resolution:
@@ -245,6 +252,18 @@ packages:
       supports-color:
         optional: true
 
+  debug@4.4.0:
+    resolution:
+      {
+        integrity: sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==,
+      }
+    engines: { node: '>=6.0' }
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
   emoji-regex@10.4.0:
     resolution:
       {
@@ -341,10 +360,10 @@ packages:
         integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==,
       }
 
-  lilconfig@3.1.2:
+  lilconfig@3.1.3:
     resolution:
       {
-        integrity: sha512-eop+wDAvpItUys0FWkHIKeC9ybYrTGbU41U5K7+bttZZeohvnY7M9dZ5kB21GNWiFT2q1OoPTvncPCgSOVO5ow==,
+        integrity: sha512-/vlFKAoH5Cgt3Ie+JLhRbwOsCQePABiU3tJ1egGvyQ+33R/vcwM2Zl2QR/LzjsBeItPt3oSVXapn+m4nQDvpzw==,
       }
     engines: { node: '>=14' }
 
@@ -453,18 +472,18 @@ packages:
     engines: { node: '>=0.10' }
     hasBin: true
 
-  prettier@3.4.1:
+  prettier@3.4.2:
     resolution:
       {
-        integrity: sha512-G+YdqtITVZmOJje6QkXQWzl3fSfMxFwm1tjTyo9exhkmWSqC4Yhd1+lug++IlR2mvRVAxEDDWYkQdeSztajqgg==,
+        integrity: sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==,
       }
     engines: { node: '>=14' }
     hasBin: true
 
-  remix-auth-oauth2@3.0.0:
+  remix-auth-oauth2@3.1.0:
     resolution:
       {
-        integrity: sha512-AdbHqN0eF4Y4wtFqILTTFNMEJrH5EVAoVu5x3ZLk3B2aDHZaHDeVx7ziROCxkmU29OqzyaC0HKPQgr1mmR3mRg==,
+        integrity: sha512-wMakEr+etbkIBCPAZrK6hMncL0+LZLOvAFewsiWeTlb9LKEfPYL0MXJzk2yjJv5PJcVIfRfah3AxD9lkLTgE+w==,
       }
     engines: { node: ^20.0.0 || >=20.0.0 }
     peerDependencies:
@@ -627,6 +646,8 @@ snapshots:
   '@biomejs/cli-win32-x64@1.9.4':
     optional: true
 
+  '@edgefirst-dev/data@0.0.2': {}
+
   '@mjackson/headers@0.8.0': {}
 
   '@oslojs/asn1@1.0.0':
@@ -693,6 +714,10 @@ snapshots:
     dependencies:
       ms: 2.1.3
 
+  debug@4.4.0:
+    dependencies:
+      ms: 2.1.3
+
   emoji-regex@10.4.0: {}
 
   environment@1.1.0: {}
@@ -735,7 +760,7 @@ snapshots:
 
   isexe@2.0.0: {}
 
-  lilconfig@3.1.2: {}
+  lilconfig@3.1.3: {}
 
   lint-staged@15.2.10:
     dependencies:
@@ -743,7 +768,7 @@ snapshots:
       commander: 12.1.0
       debug: 4.3.7
       execa: 8.0.1
-      lilconfig: 3.1.2
+      lilconfig: 3.1.3
       listr2: 8.2.5
       micromatch: 4.0.8
       pidtree: 0.6.0
@@ -802,16 +827,17 @@ snapshots:
 
   pidtree@0.6.0: {}
 
-  prettier@3.4.1: {}
+  prettier@3.4.2: {}
 
-  remix-auth-oauth2@3.0.0(remix-auth@4.0.0):
+  remix-auth-oauth2@3.1.0(remix-auth@4.0.0):
     dependencies:
+      '@edgefirst-dev/data': 0.0.2
       '@mjackson/headers': 0.8.0
       '@oslojs/crypto': 1.0.1
       '@oslojs/encoding': 1.1.0
       '@oslojs/oauth2': 0.5.0
       arctic: 2.3.0
-      debug: 4.3.7
+      debug: 4.4.0
       remix-auth: 4.0.0
     transitivePeerDependencies:
       - supports-color
